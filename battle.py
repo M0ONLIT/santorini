@@ -1,5 +1,5 @@
 import random_ai
-op=1
+
 
 from santorinix import *
 from random import shuffle

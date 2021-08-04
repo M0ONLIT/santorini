@@ -1,5 +1,5 @@
 import random_ai
-
+hello=123
 
 from santorinix import *
 from random import shuffle

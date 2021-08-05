@@ -40,10 +40,10 @@ class player:
 
 class Santorini:
 
-    def __init__(self, *ai):
-        self.players=ai
-        self.board=[[space(self.players) for j in range(5)] for i in range(5)]
-        self.people=len(ai)
+    def __init__(self, *players):
+        self.players=players
+        self.board=[[space(players) for j in range(5)] for i in range(5)]
+        self.people=len(players)
 
         self.team=0
         self.state=0

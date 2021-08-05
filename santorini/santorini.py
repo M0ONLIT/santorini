@@ -68,7 +68,7 @@ class Santorini:
 
     def info(self):
         board=[[[self.board[i][j].floor, 0 if self.board[i][j].team==None else (self.board[i][j].team+self.people-self.team)%self.people+1] for j in range(5)] for i in range(5)]
-        return self.floor, board
+        return self.floor.copy(), board
 
     def complete(self):
         self.print_board()
@@ -165,7 +165,8 @@ class Santorini:
 
 def main():
     com=computer.ai("C")
-    game=Santorini(player(com),player(human.ai("S")))
+    com2=computer.ai("D")
+    game=Santorini(player(com),player(com2))
     game.complete()
     input()
 

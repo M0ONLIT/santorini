@@ -98,20 +98,21 @@ def calculation_build(floor, board, team): #pos(x)[0] = pos(x)[0]
                 lis.append((i,j,k))
     return dic, lis
 
-def evaluate(board, floor_score, pos_floor_score):
+def evaluate(board, floor_score, pos_floor_score, team):
     pos=lambda x: board[x[0]][x[1]]
+    opponent=team%2+1
     score=opponent_score=0
 
     for i in range(5):
         for j in range(5): #pos(x)[0]->floor, pos(x)[1]->team
             ij=i, j
             gen=generate(i, j)
-            if pos(ij)[1]==1:
+            if pos(ij)[1]==team:
                 for k in gen:
                     if pos(k)[0]-pos(ij)[0]<2:
                         score+=floor_score[pos(k)[0]]
                 score+=pos_floor_score[pos(ij)[0]]
-            elif pos(ij)[1]==2:
+            elif pos(ij)[1]==opponent:
                 for k in gen:
                     if pos(k)[0]-pos(ij)[0]<2:
                         if pos(k)[0]==3:
@@ -135,5 +136,5 @@ def real_simulate_inv(floor, board, points):
 
     pos(destination)[1]=pos(origin)[1]
     pos(origin)[1]=0
-    floor[pos(building)[0]]+=1
+    floor[pos(building)[0]-1]+=1
     pos(building)[0]-=1

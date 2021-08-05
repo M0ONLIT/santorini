@@ -37,8 +37,11 @@ class inf:
         return new
     def __repr__(self):
         return f'inf({self.level})'
+    def __mul__(self, other):
+        return self
     def copy(self):
         return inf(self.level)
+    #__add__=__sub__=__mul__=__div__=lambda self, other: self
 
 def iter_to_str(x):
     string=''

@@ -25,8 +25,9 @@ class ai: #2인용 전용임
         return points.split() #ex) '33 34'.split() (각각 (3,3) (3,4)에 배치)
 
     def play(self, floor, board):
+        self.k=0
         best_choice, best_score=self.calculation(floor, board, self.width, self.depth, team=1)
-        print(best_score)
+        print(best_score*.01, self.k)
         return iter_to_str(best_choice).split() #ex) '33 34 33'.split() ((3,3에 있던 말을 3,4로 이동하고 3,3에 건축))
 
     def calculation(self, floor, board, width, depth, team):
@@ -55,6 +56,7 @@ class ai: #2인용 전용임
 
         if depth==1:
             best_choice, best_score=max(choice, key=lambda x: x[1])
+            self.k+=1
             return best_choice, best_score
 
         choice=sorted(choice, key=lambda x: -x[1])
@@ -73,8 +75,12 @@ class ai: #2인용 전용임
             if best_choice!=None:
                 sample.append([best_choice, best_score])
             best_choice, best_score=max(sample, key=lambda x: x[1])
-            if type(best_score)==inf and best_score.level<0:
+            if type(best_score)==inf and best_score.level<0 and team==1:
                 continue
+            if depth==self.depth:
+                for i in range(len(sample)):
+                    if sample[i][0]==best_choice:
+                        print(i)
             break
         return best_choice, best_score
 

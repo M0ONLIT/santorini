@@ -25,9 +25,8 @@ class ai: #2인용 전용임
         return points.split() #ex) '33 34'.split() (각각 (3,3) (3,4)에 배치)
 
     def play(self, floor, board):
-        self.k=0
         best_choice, best_score=self.calculation(floor, board, self.width, self.depth, team=1)
-        print(best_score*.01, self.k)
+        print(best_score*.01)
         return iter_to_str(best_choice).split() #ex) '33 34 33'.split() ((3,3에 있던 말을 3,4로 이동하고 3,3에 건축))
 
     def calculation(self, floor, board, width, depth, team):
@@ -53,13 +52,15 @@ class ai: #2인용 전용임
                 choice.append([points, score])
             
             real_simulate_inv(floor, board, points)
-
+        
         if depth==1:
             best_choice, best_score=max(choice, key=lambda x: x[1])
-            self.k+=1
             return best_choice, best_score
 
         choice=sorted(choice, key=lambda x: -x[1])
+        if choice[0][1]==inf(1):
+            best_choice, best_score=choice[0]
+            return best_choice, best_score
 
         while choice:
             sample=choice[:width]
@@ -75,13 +76,10 @@ class ai: #2인용 전용임
             if best_choice!=None:
                 sample.append([best_choice, best_score])
             best_choice, best_score=max(sample, key=lambda x: x[1])
-            if type(best_score)==inf and best_score.level<0 and team==1:
+            if type(best_score)==inf and best_score.level<0:
                 continue
-            if depth==self.depth:
-                for i in range(len(sample)):
-                    if sample[i][0]==best_choice:
-                        print(i)
             break
+        
         return best_choice, best_score
 
     def set_gene(self, floor_score, pos_floor_score):
@@ -108,12 +106,3 @@ class ai: #2인용 전용임
         return new
 
 #floor, team
-'''
-[
-  [[0,0], [0,0], [0,0], [0,0], [0,0]],
-  [[0,0], [0,0], [0,0], [0,0], [0,0]],
-  [[0,0], [3,1], [2,2], [0,0], [0,0]],
-  [[0,0], [0,0], [0,1], [0,2], [0,0]],
-  [[0,0], [0,0], [0,0], [0,0], [0,0]],
-]
-'''
